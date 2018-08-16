@@ -1,3 +1,6 @@
+Topic: 
+##Separation of duties in the Code Commits with your pipeline
+
 Most of the pipelines with Jenkins today are built using Jenkins shared of libraries. These shared libraries provide huge amount of power to the users of the libs as well as to the administrators of these libs.
 
 Jenkinsfiles are best when they are used for configuration and defining the stages of a pipeline only, while the real core logic of implementing those steps resides in a shared set of libraries.
@@ -9,7 +12,7 @@ One of the common problems which is prevalent in software development is committ
 In such event, shared libraries can be used to catch such commits, flag the build and take other actions for example notify the user and his superior.
 So that the team can take appropriate decisions like reverting the commit or fixing the permissions on their git repositories.
 
-Here is how you can do it:
+#Here is how you can do it:
 
 1)- Wrap your Jenkinsfile in a closure in your Jenkinsfile. For example in this case `integration` : 
 
@@ -66,9 +69,11 @@ stage('Validating the git commit'){
 ```
 4)- Outcome , In case of a commit without approval: 
 View On the pipeline: 
-
-![image](https://user-images.githubusercontent.com/11368123/44236593-28a4cc80-a173-11e8-9a9b-f9d1e9f17bae.png)
-
-In the job console log:
 ![image](https://user-images.githubusercontent.com/11368123/44236639-50943000-a173-11e8-8d04-4ca83cb69275.png)
 
+In the job console log:
+![image](https://user-images.githubusercontent.com/11368123/44236754-b2549a00-a173-11e8-9bb5-ff0a059d3546.png)
+
+The best part about these controls is that such controls forces the converstations of doing the right thing. We have seen a lot of developers to rectify the git settings properly after seeing such errors.
+This is a very basic illustration of how you can use shared liberaries to enforce controls. There are many more use cases that you can implement through using the shared liberaries to basically redefine the software development culture in your team.
+Be sure to catch my talk on Reimagine your pipeline: Deliver software with confidence at Jenkins World 2018. 
