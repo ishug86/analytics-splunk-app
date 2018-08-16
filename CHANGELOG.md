@@ -13,6 +13,53 @@ So that the team can take appropriate decisions like reverting the commit or fix
 
 Here is how you can do it:
 
-1)- Mandate an overall closure in your Jenkinsfile. For example in this case `integration` : 
+1)- Wrap your Jenkinsfile in an closure in your Jenkinsfile. For example in this case `integration` : 
 
 ![pasted_image_8_16_18__4_05_pm](https://user-images.githubusercontent.com/11368123/44235324-b631ed80-a16e-11e8-9d99-d31722ba9d74.png)
+
+2)- Since all the pipelines steps are under this closure, you can apply all your admin rules under this closure.
+
+3)- Here is a sample code snippet:
+
+```
+def validateCommitWithPullRequest() {
+    Map validationFlags = commitValidator(userIntiatedJob)
+    boolean isValid = true
+    // ignore user initiated job in case they need to rebuild due to error not related to their codebase
+    if (validationFlags.pullViolation) {
+        error "Validation failed: This change was not made through a pull request. This behavior is prohibited in Release branch."
+    } else if (validationFlags.approverViolation) {
+        error "Validation failed: The approver and requester of the pull request is same person. This behavior is prohibited in Release branch."
+    } else if (validationFlags.noApproverViolation) {
+        error "Validation failed: No approval was found for the pull request. This behavior is prohibited in Release branch."
+    }
+}
+def commitValidator(boolean userIntiatedJob) {
+    def hasResults = true
+    int pageNum = 1
+    def result = [pullViolation: true, approverViolation: false, noApproverViolation: false]
+    while (hasResults) {
+        String prListUrl = "https://<giturl>/api/v3/repos/<orgname>/<reponame>/pulls?state=closed&sort=updated&direction=desc&per_page=30&page=${pageNum}"
+        def prResponse = <call git api>
+        if (hasResults) {
+            // Match the PR commit with the valid commit
+            def results = prResponse.find { pr -> pr.merge_commit_sha == <git commit commit sha> }
+            if (results != null) {
+                result.pullViolation = false
+                def prRequester = results.user.login
+                // github approver check
+                def prUrl = results.url as String
+                def approverResponse = <call git approvals>
+                String approverData = approverResponse.getContent()
+                // find approved review by person other than requester
+                validGithubApproval = approverData.any { pr -> pr.user.login != prRequester && pr.state == 'APPROVED' }
+                // find approved review by requester
+                invalidGithubApproval = approverData.any { pr -> pr.user.login == prRequester && pr.state == 'APPROVED' }
+                break
+            }
+        }
+        pageNum++
+    }
+    return result
+}
+```
