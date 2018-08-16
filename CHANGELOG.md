@@ -21,6 +21,9 @@ Here is how you can do it:
 3)- In shared libs, in integration block you can write this:- 
 
 ```
+stage('Validating the git commit')
+{
+//Validate the commit for the PR
 def validateCommitWithPullRequest() {
     Map validationFlags = commitValidator(userIntiatedJob)
     boolean isValid = true
@@ -60,5 +63,6 @@ def commitValidator(boolean userIntiatedJob) {
         pageNum++
     }
     return result
+}
 }
 ```
