@@ -1,6 +1,4 @@
-Topic: 
-
-## Separation of duties in the Code Commits with your pipeline
+## Topic: Separation of duties in the Code Commits with your pipeline
 
 Most of the pipelines with Jenkins today are built using Jenkins shared of libraries. These shared libraries provide huge amount of power to the users of the libs as well as to the administrators of these libs.
 
@@ -13,14 +11,14 @@ One of the common problems which is prevalent in software development is committ
 In such event, shared libraries can be used to catch such commits, flag the build and take other actions for example notify the user and his superior.
 So that the team can take appropriate decisions like reverting the commit or fixing the permissions on their git repositories.
 
-# Here is how you can do it:
+# Here is an example how you can do it:
 
-1)- Wrap your Jenkinsfile in a closure in your Jenkinsfile. For example in this case `integration` : 
+1)- Wrap your Jenkinsfile in a parent closure. For example in this case `integration` is the parent closure: 
 
 
 ![pasted_image_8_16_18__4_05_pm](https://user-images.githubusercontent.com/11368123/44235324-b631ed80-a16e-11e8-9d99-d31722ba9d74.png)
 
-2)- Since all the pipelines steps are under this closure, you can apply all your admin rules under this closure.
+2)- Since all the pipelines steps are under now under this closure, you can apply all your admin rules under this closure.
 
 3)- In shared libs, in integration block you can write this:- 
 
@@ -78,6 +76,8 @@ stage('Validating the git commit'){
 
 # In the job console log:
 ![image](https://user-images.githubusercontent.com/11368123/44236754-b2549a00-a173-11e8-9bb5-ff0a059d3546.png)
+
+
 
 The best part about these controls is that such controls forces the converstations of doing the right thing. We have seen a lot of developers to rectify the git settings properly after seeing such errors.
 
