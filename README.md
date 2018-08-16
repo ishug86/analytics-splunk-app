@@ -1,5 +1,4 @@
 # Chef Analytics Splunk App
-
 Splunk App to gather insights from your Chef infrastructure via Chef Analytics.
 
 ## Requirements:
