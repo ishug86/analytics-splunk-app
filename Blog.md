@@ -68,11 +68,15 @@ stage('Validating the git commit'){
   }
 }  
 ```
+
 4)- Outcome , In case of a commit without approval: 
-View On the pipeline: 
+
+
+# View On the pipeline: 
 ![image](https://user-images.githubusercontent.com/11368123/44236639-50943000-a173-11e8-8d04-4ca83cb69275.png)
 
-In the job console log:
+
+# In the job console log:
 ![image](https://user-images.githubusercontent.com/11368123/44236754-b2549a00-a173-11e8-9bb5-ff0a059d3546.png)
 
 The best part about these controls is that such controls forces the converstations of doing the right thing. We have seen a lot of developers to rectify the git settings properly after seeing such errors.
