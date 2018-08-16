@@ -18,9 +18,9 @@ So that the team can take appropriate decisions like reverting the commit or fix
 
 ![pasted_image_8_16_18__4_05_pm](https://user-images.githubusercontent.com/11368123/44235324-b631ed80-a16e-11e8-9d99-d31722ba9d74.png)
 
-2)- Since all the pipelines steps are under now under this closure, you can apply all your admin rules under this closure.
+2)- Since all the pipelines steps are under now under this closure, Before executing any pipeline steps, the code inside `integration` closure will be executed. With this power now you can apply all your admin rules under this closure.
 
-3)- In shared libs, in integration block you can write this:- 
+3)- To implement commit validation functionality , In shared libs, in `integration` block you can write this example code:- 
 
 ```
 stage('Validating the git commit'){
@@ -36,6 +36,7 @@ stage('Validating the git commit'){
           error "Validation failed: No approval was found for the pull request. This behavior is prohibited in Release branch."
       }
   }
+  
   def commitValidator(boolean userIntiatedJob) {
       def hasResults = true
       int pageNum = 1
