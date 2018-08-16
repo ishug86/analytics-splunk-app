@@ -1,12 +1,7 @@
-Most of the pipelines with Jenkins today are built using Jenkins shared of libraries. These shared libraries provides huge amount of power
-to the users of the libs as well as to the adminstrators of these libs.
-Jenkinsfiles are best when they are used for configuration and defining the stages of a pipeline only, while the real core logic
-of implementing those steps resides in a shared set of libraries.
-If you are a pipeline admin in your team or company , you can define a lot of controls in your shared set of liberaries and provide a 
-huge flexibility to the users at the same time.
-One of the common problem which is prevalant in software development is commiting the bad/unwanted/malicious code in git repository
-by supassing the approval process. Even while a git repository can be secured by setting up the right controls in the git settings,
-a user with higher git privilages can always commit code intentionally or unintentionally to the release/master branch.
+Most of the pipelines with Jenkins today are built using Jenkins shared of libraries. These shared libraries provides huge amount of powerto the users of the libs as well as to the adminstrators of these libs.
+Jenkinsfiles are best when they are used for configuration and defining the stages of a pipeline only, while the real core logic of implementing those steps resides in a shared set of libraries.
+If you are a pipeline admin in your team or company , you can define a lot of controls in your shared set of liberaries and provide a huge flexibility to the users at the same time.
+One of the common problem which is prevalant in software development is commiting the bad/unwanted/malicious code in git repository by supassing the approval process. Even while a git repository can be secured by setting up the right controls in the git settings,a user with higher git privilages can always commit code intentionally or unintentionally to the release/master branch.
 
 In such event, shared liberaries can be used to catch such commits, flag the build and take other actions for example notify the user and his superior.
 So that the team can take appropriate decisions like reverting the commit or fixing the permissions on their git repositories.
@@ -19,7 +14,7 @@ Here is how you can do it:
 
 2)- Since all the pipelines steps are under this closure, you can apply all your admin rules under this closure.
 
-3)- Here is a sample code snippet:
+3)- In shared libs, in integration block you can write this:- 
 
 ```
 def validateCommitWithPullRequest() {
