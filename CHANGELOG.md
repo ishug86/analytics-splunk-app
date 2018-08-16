@@ -21,48 +21,53 @@ Here is how you can do it:
 3)- In shared libs, in integration block you can write this:- 
 
 ```
-stage('Validating the git commit')
-{
-//Validate the commit for the PR
-def validateCommitWithPullRequest() {
-    Map validationFlags = commitValidator(userIntiatedJob)
-    boolean isValid = true
-    // ignore user initiated job in case they need to rebuild due to error not related to their codebase
-    if (validationFlags.pullViolation) {
-        error "Validation failed: This change was not made through a pull request. This behavior is prohibited in Release branch."
-    } else if (validationFlags.approverViolation) {
-        error "Validation failed: The approver and requester of the pull request is same person. This behavior is prohibited in Release branch."
-    } else if (validationFlags.noApproverViolation) {
-        error "Validation failed: No approval was found for the pull request. This behavior is prohibited in Release branch."
-    }
-}
-def commitValidator(boolean userIntiatedJob) {
-    def hasResults = true
-    int pageNum = 1
-    def result = [pullViolation: true, approverViolation: false, noApproverViolation: false]
-    while (hasResults) {
-        String prListUrl = "https://<giturl>/api/v3/repos/<orgname>/<reponame>/pulls?state=closed&sort=updated&direction=desc&per_page=30&page=${pageNum}"
-        def prResponse = <call git api>
-        if (hasResults) {
-            // Match the PR commit with the valid commit
-            def results = prResponse.find { pr -> pr.merge_commit_sha == <git commit commit sha> }
-            if (results != null) {
-                result.pullViolation = false
-                def prRequester = results.user.login
-                // github approver check
-                def prUrl = results.url as String
-                def approverResponse = <call git approvals>
-                String approverData = approverResponse.getContent()
-                // find approved review by person other than requester
-                validGithubApproval = approverData.any { pr -> pr.user.login != prRequester && pr.state == 'APPROVED' }
-                // find approved review by requester
-                invalidGithubApproval = approverData.any { pr -> pr.user.login == prRequester && pr.state == 'APPROVED' }
-                break
-            }
-        }
-        pageNum++
-    }
-    return result
-}
-}
+stage('Validating the git commit'){
+  def validateCommitWithPullRequest() {
+      Map validationFlags = commitValidator(userIntiatedJob)
+      boolean isValid = true
+      // ignore user initiated job in case they need to rebuild due to error not related to their codebase
+      if (validationFlags.pullViolation) {
+          error "Validation failed: This change was not made through a pull request. This behavior is prohibited in Release branch."
+      } else if (validationFlags.approverViolation) {
+          error "Validation failed: The approver and requester of the pull request is same person. This behavior is prohibited in Release branch."
+      } else if (validationFlags.noApproverViolation) {
+          error "Validation failed: No approval was found for the pull request. This behavior is prohibited in Release branch."
+      }
+  }
+  def commitValidator(boolean userIntiatedJob) {
+      def hasResults = true
+      int pageNum = 1
+      def result = [pullViolation: true, approverViolation: false, noApproverViolation: false]
+      while (hasResults) {
+          String prListUrl = "https://<giturl>/api/v3/repos/<orgname>/<reponame>/pulls?state=closed&sort=updated&direction=desc&per_page=30&page=${pageNum}"
+          def prResponse = <call git api>
+          if (hasResults) {
+              // Match the PR commit with the valid commit
+              def results = prResponse.find { pr -> pr.merge_commit_sha == <git commit commit sha> }
+              if (results != null) {
+                  result.pullViolation = false
+                  def prRequester = results.user.login
+                  // github approver check
+                  def prUrl = results.url as String
+                  def approverResponse = <call git approvals>
+                  String approverData = approverResponse.getContent()
+                  // find approved review by person other than requester
+                  validGithubApproval = approverData.any { pr -> pr.user.login != prRequester && pr.state == 'APPROVED' }
+                  // find approved review by requester
+                  invalidGithubApproval = approverData.any { pr -> pr.user.login == prRequester && pr.state == 'APPROVED' }
+                  break
+              }
+          }
+          pageNum++
+      }
+      return result
+  }
+}  
 ```
+4)- Outcome , In case of a commit without approval: 
+View On the pipeline: 
+
+![image](https://user-images.githubusercontent.com/11368123/44236593-28a4cc80-a173-11e8-9a9b-f9d1e9f17bae.png)
+
+In the console log:
+![image](https://user-images.githubusercontent.com/11368123/44236554-f7c49780-a172-11e8-867c-aaef6229f4f4.png)
