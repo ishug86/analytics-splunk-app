@@ -69,5 +69,6 @@ View On the pipeline:
 
 ![image](https://user-images.githubusercontent.com/11368123/44236593-28a4cc80-a173-11e8-9a9b-f9d1e9f17bae.png)
 
-In the console log:
-![image](https://user-images.githubusercontent.com/11368123/44236554-f7c49780-a172-11e8-867c-aaef6229f4f4.png)
+In the job console log:
+![image](https://user-images.githubusercontent.com/11368123/44236639-50943000-a173-11e8-8d04-4ca83cb69275.png)
+
