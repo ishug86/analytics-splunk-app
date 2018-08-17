@@ -1,12 +1,12 @@
 ## Topic: Separation of duties in the Code Commits with your pipeline
 
-Most of the pipelines with Jenkins today are built using Jenkins shared of libraries. These shared libraries provide huge amount of power to the users of the libs as well as to the administrators of these libs.
+Most of the pipelines with Jenkins today are built using [Jenkins shared libraries](https://jenkins.io/doc/book/pipeline/shared-libraries/) . These shared libraries provide huge amount of power to the users as well as to the administrators of these libs.
 
 Jenkinsfiles are best when they are used for configuration and defining the stages of a pipeline only, while the real core logic of implementing those steps resides in a shared set of libraries.
 
 If you are a pipeline admin in your team or company, you can define a lot of controls in your shared set of libraries and provide a huge flexibility to the users at the same time.
 
-One of the common problems which is prevalent in software development is committing the bad/unwanted/malicious code in git repository by surpassing the approval process. Even while a git repository can be secured by setting up the right controls in the git settings, a user with higher git privileges can always commit code intentionally or unintentionally to the release/master branch.
+One of the common problems which is prevalent in software development community is committing the bad/unwanted/malicious code in git repository by surpassing the approval process. Even while a git repository can be secured by setting up the right controls in the git settings, a user with higher git privileges can always commit code intentionally or unintentionally to the release/master branch.
 
 In such event, shared libraries can be used to catch such commits, flag the build and take other actions for example notify the user and his superior.
 So that the team can take appropriate decisions like reverting the commit or fixing the permissions on their git repositories.
@@ -18,7 +18,7 @@ So that the team can take appropriate decisions like reverting the commit or fix
 
 ![pasted_image_8_16_18__4_05_pm](https://user-images.githubusercontent.com/11368123/44235324-b631ed80-a16e-11e8-9d99-d31722ba9d74.png)
 
-2)- Since all the pipelines steps are under now under this closure, Before executing any pipeline steps, the code inside `integration` closure will be executed. With this power now you can apply all your admin rules under this closure.
+2)- Since all the pipelines steps are  now under `integration` closure, Before executing any pipeline steps, the code inside `integration` closure will be executed. With this leverage now you can apply all your admin rules under this closure.
 
 3)- To implement commit validation functionality , In shared libs, in `integration` block you can write this example code:- 
 
@@ -79,8 +79,8 @@ stage('Validating the git commit'){
 ![image](https://user-images.githubusercontent.com/11368123/44236754-b2549a00-a173-11e8-9bb5-ff0a059d3546.png)
 
 
-
 The best part about these controls is that such controls forces the converstations of doing the right thing. We have seen a lot of developers to rectify the git settings properly after seeing such errors.
 
-This is a very basic illustration of how you can use shared liberaries to enforce controls. There are many more use cases that you can implement through using the shared liberaries to basically redefine the software development culture in your team.
+## Summary:
+This is a very basic illustration of how you can use shared libraries to enforce controls. There are many more use cases that you can implement through using the admin closures in shared libraries. Such controls may not always completely address the issues at the core but will help you in redefining the software development culture in your team/company.
 Be sure to catch my talk on Reimagine your pipeline: Deliver software with confidence at Jenkins World 2018. 
