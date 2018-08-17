@@ -79,7 +79,7 @@ stage('Validating the git commit'){
 ![image](https://user-images.githubusercontent.com/11368123/44236754-b2549a00-a173-11e8-9bb5-ff0a059d3546.png)
 
 
-The best part about these controls is that such controls force the converstations of doing the right thing. We have seen a lot of developers to rectify the git settings properly after seeing such errors.
+The best part about these controls is that they force the converstations of doing the right thing. We have seen a lot of developers to rectify the git settings properly after seeing such errors.
 
 ## Summary:
 This is a very basic illustration of how you can use shared libraries to enforce controls. There are many more use cases that you can implement through using the admin closures in shared libraries. Such controls may not always completely address the issues at the core but will help you in redefining the software development culture in your team/company.
