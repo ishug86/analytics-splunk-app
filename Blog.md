@@ -1,4 +1,4 @@
-## Topic: Separation of duties in the Code Commits with your pipeline
+## Topic: Separation of duties in Code Commits with your pipeline
 
 Most of the pipelines with Jenkins today are built using [Jenkins shared libraries](https://jenkins.io/doc/book/pipeline/shared-libraries/) . These shared libraries provide huge amount of power to the users as well as to the administrators of these libs.
 
